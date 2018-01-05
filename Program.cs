@@ -14,8 +14,11 @@ namespace Proxy
         static void Main(string[] args)
         {
             var toPhoneNumber = "REPLACE_TO_PHONE_NUMBER_HERE";
-            TwilioClient.Init(Helper.ACCOUNT_SID,Helper.AUTH_TOKEN);
-
+            
+            var proxyClient = GetProxyClient();
+            var twilioClient = new Twilio.Clients.TwilioRestClient(Helper.ACCOUNT_SID, Helper.AUTH_TOKEN, httpClient:new Twilio.Http.SystemNetHttpClient(proxyClient));
+            TwilioClient.SetRestClient(twilioClient);
+            
             try
             {
                 var callResult = CallResource.Create(
@@ -30,5 +33,24 @@ namespace Proxy
                 Console.WriteLine($"An exception occurred: {ex.Message}");
             }
         }
+
+         static HttpClient GetProxyClient()
+        {
+            var proxyUri = "127.0.0.1";
+            var creds = CredentialCache.DefaultCredentials;
+            var proxy = new WebProxy(proxyUri,8888)
+            {
+                UseDefaultCredentials = false,
+                Credentials = creds
+            };
+            var handler = new HttpClientHandler
+            {
+                Proxy = proxy,
+                PreAuthenticate = true,
+                UseDefaultCredentials = false
+            };
+            return new HttpClient(handler);    
+        }
+
     }
 }
