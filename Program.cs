@@ -12,9 +12,7 @@ namespace Proxy
     class Program
     {
         static void Main(string[] args)
-        {
-            var toPhoneNumber = "REPLACE_TO_PHONE_NUMBER_HERE";
-            
+        {            
             var proxyClient = GetProxyClient();
             var twilioClient = new Twilio.Clients.TwilioRestClient(Helper.ACCOUNT_SID, Helper.AUTH_TOKEN, httpClient:new Twilio.Http.SystemNetHttpClient(proxyClient));
             TwilioClient.SetRestClient(twilioClient);
@@ -22,7 +20,7 @@ namespace Proxy
             try
             {
                 var callResult = CallResource.Create(
-                    to: new PhoneNumber(toPhoneNumber),
+                    to: new PhoneNumber(Helper.TO_PHONE_NUMBER),
                     from: new PhoneNumber(Helper.TWILIO_NUMBER),
                     url: new Uri("http://demo.twilio.com/docs/voice.xml")
                 );
