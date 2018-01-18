@@ -13,7 +13,7 @@ namespace Proxy
             try
             {
                 var callResult = CallResource.Create(
-                    to: new PhoneNumber(Helper.TO_PHONE_NUMBER),
+                    to: new PhoneNumber(Helper.DESTINATION_NUMBER),
                     from: new PhoneNumber(Helper.TWILIO_NUMBER),
                     url: new Uri("http://demo.twilio.com/docs/voice.xml")
                 );
