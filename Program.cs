@@ -17,7 +17,7 @@ namespace Proxy
                     from: new PhoneNumber(Helper.TWILIO_NUMBER),
                     url: new Uri("http://demo.twilio.com/docs/voice.xml")
                 );
-                Console.WriteLine(callResult.ToString());
+                Console.WriteLine($"Call SID: {callResult.Sid.ToString()}");
             }
             catch (Exception ex)
             {
